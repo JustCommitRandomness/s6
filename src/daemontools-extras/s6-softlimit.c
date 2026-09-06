@@ -25,16 +25,9 @@ static void doit (int res, char const *arg)
   {
     uint64_t n ;
     if (!uint640_scan(arg, &n)) strerr_dieusage(100, USAGE) ;
-    if (what & 2)
-    {
-      r.rlim_max = n ;
-      if (!(what & 1) && r.rlim_cur > n) r.rlim_cur = n ;
-    }
-    if (what & 1)
-    {
-      if (n > r.rlim_max) n = r.rlim_max ;
-      r.rlim_cur = n ;
-    }
+    if (what & 2) r.rlim_max = n ;
+    if (what & 1) r.rlim_cur = n ;
+    if (r.rlim_cur > r.rlim_max) r.rlim_cur = r.rlim_max ;
   }
   if (setrlimit(res, &r) < 0) strerr_diefu1sys(111, "setrlimit") ;
 }
